@@ -18,14 +18,6 @@
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
     </properties>
 
-    <developers>
-        <developer>
-            <name>李恒名</name>
-            <url>https://github.com/lihengming/</url>
-            <email>89921218@qq.com</email>
-        </developer>
-    </developers>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

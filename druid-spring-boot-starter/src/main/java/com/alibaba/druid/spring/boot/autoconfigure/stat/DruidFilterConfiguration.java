@@ -33,6 +33,17 @@ import org.springframework.context.annotation.Bean;
  * @author lihengming [89921218@qq.com]
  */
 public class DruidFilterConfiguration {
+
+    private static final String FILTER_STAT_PREFIX = "spring.datasource.druid.filter.stat";
+    private static final String FILTER_CONFIG_PREFIX = "spring.datasource.druid.filter.config";
+    private static final String FILTER_ENCODING_PREFIX = "spring.datasource.druid.filter.encoding";
+    private static final String FILTER_SLF4J_PREFIX = "spring.datasource.druid.filter.slf4j";
+    private static final String FILTER_LOG4J_PREFIX = "spring.datasource.druid.filter.log4j";
+    private static final String FILTER_LOG4J2_PREFIX = "spring.datasource.druid.filter.log4j2";
+    private static final String FILTER_COMMONS_LOG_PREFIX = "spring.datasource.druid.filter.commons-log";
+    private static final String FILTER_WALL_PREFIX = "spring.datasource.druid.filter.wall";
+    private static final String FILTER_WALL_CONFIG_PREFIX = FILTER_WALL_PREFIX + ".config";
+
     @Bean
     @ConfigurationProperties(FILTER_STAT_PREFIX)
     @ConditionalOnProperty(prefix = FILTER_STAT_PREFIX, name = "enabled")
@@ -107,13 +118,5 @@ public class DruidFilterConfiguration {
         return filter;
     }
 
-    private static final String FILTER_STAT_PREFIX = "spring.datasource.druid.filter.stat";
-    private static final String FILTER_CONFIG_PREFIX = "spring.datasource.druid.filter.config";
-    private static final String FILTER_ENCODING_PREFIX = "spring.datasource.druid.filter.encoding";
-    private static final String FILTER_SLF4J_PREFIX = "spring.datasource.druid.filter.slf4j";
-    private static final String FILTER_LOG4J_PREFIX = "spring.datasource.druid.filter.log4j";
-    private static final String FILTER_LOG4J2_PREFIX = "spring.datasource.druid.filter.log4j2";
-    private static final String FILTER_COMMONS_LOG_PREFIX = "spring.datasource.druid.filter.commons-log";
-    private static final String FILTER_WALL_PREFIX = "spring.datasource.druid.filter.wall";
-    private static final String FILTER_WALL_CONFIG_PREFIX = FILTER_WALL_PREFIX + ".config";
+
 }

@@ -22,6 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties("spring.datasource.druid")
 public class DruidStatProperties {
+
     private String[] aopPatterns;
     private StatViewServlet statViewServlet = new StatViewServlet();
     private WebStatFilter webStatFilter = new WebStatFilter();

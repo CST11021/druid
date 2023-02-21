@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
  */
 @ConditionalOnProperty("spring.datasource.druid.aop-patterns")
 public class DruidSpringAopConfiguration {
+
     @Bean
     public Advice advice() {
         return new DruidStatInterceptor();
@@ -46,4 +47,5 @@ public class DruidSpringAopConfiguration {
         advisorAutoProxyCreator.setProxyTargetClass(true);
         return advisorAutoProxyCreator;
     }
+
 }

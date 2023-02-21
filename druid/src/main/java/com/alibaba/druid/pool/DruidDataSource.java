@@ -81,8 +81,11 @@ import static com.alibaba.druid.util.Utils.getBoolean;
  * @author wenshao [szujobs@hotmail.com]
  */
 public class DruidDataSource extends DruidAbstractDataSource implements DruidDataSourceMBean, ManagedDataSource, Referenceable, Closeable, Cloneable, ConnectionPoolDataSource, MBeanRegistration {
-    private static final Log LOG = LogFactory.getLog(DruidDataSource.class);
+
     private static final long serialVersionUID = 1L;
+
+    private static final Log LOG = LogFactory.getLog(DruidDataSource.class);
+
     // stats
     private volatile long recycleErrorCount;
     private volatile long discardErrorCount;
@@ -168,6 +171,8 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
     protected static final AtomicIntegerFieldUpdater<DruidDataSource> keepAliveCheckErrorCountUpdater
             = AtomicIntegerFieldUpdater.newUpdater(DruidDataSource.class, "keepAliveCheckErrorCount");
 
+
+
     public DruidDataSource() {
         this(false);
     }
@@ -177,6 +182,9 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
 
         configFromPropety(System.getProperties());
     }
+
+
+
 
     public boolean isAsyncInit() {
         return asyncInit;

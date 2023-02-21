@@ -1,11 +1,28 @@
-package com.alibaba.druid.spring.boot.demo.web;
+package druid.controller;
 
 import com.alibaba.druid.stat.DruidStatManagerFacade;
+import druid.entity.UcUser;
+import druid.service.UcUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author ww
+ * @date 2020/6/6 下午2:46
+ */
+@RequestMapping("/user")
 @RestController
-public class DruidStatController {
+public class UcUserController {
+
+    @Autowired
+    private UcUserService ucUserService;
+
+    @GetMapping("/selectById")
+    public UcUser selectById(){
+        return this.ucUserService.selectById();
+    }
 
     @GetMapping("/durid/stat")
     public Object druidStat(){

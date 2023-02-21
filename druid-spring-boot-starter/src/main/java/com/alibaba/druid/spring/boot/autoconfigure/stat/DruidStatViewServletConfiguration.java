@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnWebApplication
 @ConditionalOnProperty(name = "spring.datasource.druid.stat-view-servlet.enabled", havingValue = "true")
 public class DruidStatViewServletConfiguration {
+
     private static final String DEFAULT_ALLOW_IP = "127.0.0.1";
 
     @Bean
@@ -55,4 +56,5 @@ public class DruidStatViewServletConfiguration {
         }
         return registrationBean;
     }
+
 }

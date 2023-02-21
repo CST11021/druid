@@ -47,6 +47,7 @@ import javax.sql.DataSource;
         DruidWebStatFilterConfiguration.class,
         DruidFilterConfiguration.class})
 public class DruidDataSourceAutoConfigure {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DruidDataSourceAutoConfigure.class);
 
     @Bean(initMethod = "init")
@@ -55,4 +56,5 @@ public class DruidDataSourceAutoConfigure {
         LOGGER.info("Init DruidDataSource");
         return new DruidDataSourceWrapper();
     }
+
 }
