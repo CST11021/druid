@@ -49,6 +49,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+
         <!--各个注册中心依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

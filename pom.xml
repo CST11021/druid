@@ -34,7 +34,7 @@
 		<module>druid-spring-boot-starter</module>
 		<module>druid-wrapper</module>
 		<module>druid-demo-petclinic</module>
-		<module>whz-demo</module>
+		<module>druid-demo-whz</module>
 	</modules>
 
 
