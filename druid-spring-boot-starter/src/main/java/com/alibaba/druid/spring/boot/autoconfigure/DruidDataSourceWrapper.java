@@ -33,9 +33,15 @@ public class DruidDataSourceWrapper extends DruidDataSource implements Initializ
     @Autowired
     private DataSourceProperties basicProperties;
 
+    /**
+     * 注意：
+     * if not found prefix 'spring.datasource.druid' jdbc properties,
+     * 'spring.datasource' prefix jdbc properties will be used.
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
-        //if not found prefix 'spring.datasource.druid' jdbc properties ,'spring.datasource' prefix jdbc properties will be used.
         if (super.getUsername() == null) {
             super.setUsername(basicProperties.determineUsername());
         }

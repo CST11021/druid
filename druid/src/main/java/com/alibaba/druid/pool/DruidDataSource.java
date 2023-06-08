@@ -105,6 +105,7 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
     private long poolingPeakTime;
     private volatile int keepAliveCheckErrorCount;
     private volatile Throwable keepAliveCheckErrorLast;
+
     // store
     private volatile DruidConnectionHolder[] connections;
     private int poolingCount;
@@ -112,20 +113,18 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
     private volatile long discardCount;
     private int notEmptyWaitThreadCount;
     private int notEmptyWaitThreadPeak;
-    //
     private DruidConnectionHolder[] evictConnections;
     private DruidConnectionHolder[] keepAliveConnections;
 
     // threads
     private volatile ScheduledFuture<?> destroySchedulerFuture;
     private DestroyTask destroyTask;
-
     private volatile Future<?> createSchedulerFuture;
-
     private CreateConnectionThread createConnectionThread;
     private DestroyConnectionThread destroyConnectionThread;
     private LogStatsThread logStatsThread;
     private int createTaskCount;
+
 
     private volatile long createTaskIdSeed = 1L;
     private long[] createTasks;
@@ -158,18 +157,12 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
     private boolean loadSpifilterSkip;
     private volatile DataSourceDisableException disableException;
 
-    protected static final AtomicLongFieldUpdater<DruidDataSource> recycleErrorCountUpdater
-            = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "recycleErrorCount");
-    protected static final AtomicLongFieldUpdater<DruidDataSource> connectErrorCountUpdater
-            = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "connectErrorCount");
-    protected static final AtomicLongFieldUpdater<DruidDataSource> resetCountUpdater
-            = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "resetCount");
-    protected static final AtomicLongFieldUpdater<DruidDataSource> createTaskIdSeedUpdater
-            = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "createTaskIdSeed");
-    protected static final AtomicLongFieldUpdater<DruidDataSource> discardErrorCountUpdater
-            = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "discardErrorCount");
-    protected static final AtomicIntegerFieldUpdater<DruidDataSource> keepAliveCheckErrorCountUpdater
-            = AtomicIntegerFieldUpdater.newUpdater(DruidDataSource.class, "keepAliveCheckErrorCount");
+    protected static final AtomicLongFieldUpdater<DruidDataSource> recycleErrorCountUpdater = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "recycleErrorCount");
+    protected static final AtomicLongFieldUpdater<DruidDataSource> connectErrorCountUpdater = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "connectErrorCount");
+    protected static final AtomicLongFieldUpdater<DruidDataSource> resetCountUpdater = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "resetCount");
+    protected static final AtomicLongFieldUpdater<DruidDataSource> createTaskIdSeedUpdater = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "createTaskIdSeed");
+    protected static final AtomicLongFieldUpdater<DruidDataSource> discardErrorCountUpdater = AtomicLongFieldUpdater.newUpdater(DruidDataSource.class, "discardErrorCount");
+    protected static final AtomicIntegerFieldUpdater<DruidDataSource> keepAliveCheckErrorCountUpdater = AtomicIntegerFieldUpdater.newUpdater(DruidDataSource.class, "keepAliveCheckErrorCount");
 
 
 
@@ -1855,9 +1848,7 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
         return poolalbeConnection;
     }
 
-    public void handleConnectionException(DruidPooledConnection pooledConnection,
-                                          Throwable t,
-                                          String sql) throws SQLException {
+    public void handleConnectionException(DruidPooledConnection pooledConnection, Throwable t, String sql) throws SQLException {
         final DruidConnectionHolder holder = pooledConnection.getConnectionHolder();
         if (holder == null) {
             return;
@@ -1887,9 +1878,7 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
         }
     }
 
-    protected final void handleFatalError(DruidPooledConnection conn,
-                                          SQLException error,
-                                          String sql) throws SQLException {
+    protected final void handleFatalError(DruidPooledConnection conn, SQLException error, String sql) throws SQLException {
         final DruidConnectionHolder holder = conn.holder;
 
         if (conn.isTraceEnable()) {

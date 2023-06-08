@@ -56,15 +56,18 @@ import java.util.logging.Logger;
  * @author ljw [ljw2083@alibaba-inc.com]
  */
 public abstract class DruidAbstractDataSource extends WrapperAdapter implements DruidAbstractDataSourceMBean, DataSource, DataSourceProxy, Serializable {
+
     private static final long serialVersionUID = 1L;
+
     private static final Log LOG = LogFactory.getLog(DruidAbstractDataSource.class);
 
+    /************ 常量begin *************/
     public static final int DEFAULT_INITIAL_SIZE = 0;
     public static final int DEFAULT_MAX_ACTIVE_SIZE = 8;
     public static final int DEFAULT_MAX_IDLE = 8;
     public static final int DEFAULT_MIN_IDLE = 0;
     public static final int DEFAULT_MAX_WAIT = -1;
-    public static final String DEFAULT_VALIDATION_QUERY = null;                                                //
+    public static final String DEFAULT_VALIDATION_QUERY = null;
     public static final boolean DEFAULT_TEST_ON_BORROW = false;
     public static final boolean DEFAULT_TEST_ON_RETURN = false;
     public static final boolean DEFAULT_WHILE_IDLE = true;
@@ -73,10 +76,10 @@ public abstract class DruidAbstractDataSource extends WrapperAdapter implements 
     public static final int DEFAULT_NUM_TESTS_PER_EVICTION_RUN = 3;
     public static final int DEFAULT_TIME_CONNECT_TIMEOUT_MILLIS = 10_000;
     public static final int DEFAULT_TIME_SOCKET_TIMEOUT_MILLIS = 10_000;
-
     public static final long DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS = 1000L * 60L * 30L;
     public static final long DEFAULT_MAX_EVICTABLE_IDLE_TIME_MILLIS = 1000L * 60L * 60L * 7;
     public static final long DEFAULT_PHY_TIMEOUT_MILLIS = -1;
+    /************ 常量end *************/
 
     protected volatile boolean defaultAutoCommit = true;
     protected volatile Boolean defaultReadOnly;
@@ -85,21 +88,32 @@ public abstract class DruidAbstractDataSource extends WrapperAdapter implements 
 
     protected String name;
 
+
+
+    // 参数配置
+
+    /** 数据库重要的参数begin */
     protected volatile String username;
     protected volatile String password;
     protected volatile String jdbcUrl;
     protected volatile String driverClass;
-    protected volatile ClassLoader driverClassLoader;
     protected volatile Properties connectProperties = new Properties();
+    /** 数据库重要的参数begin */
 
-    protected volatile PasswordCallback passwordCallback;
-    protected volatile NameCallback userCallback;
-
+    /** 连接数相关参数begin */
     protected volatile int initialSize = DEFAULT_INITIAL_SIZE;
     protected volatile int maxActive = DEFAULT_MAX_ACTIVE_SIZE;
     protected volatile int minIdle = DEFAULT_MIN_IDLE;
     protected volatile int maxIdle = DEFAULT_MAX_IDLE;
     protected volatile long maxWait = DEFAULT_MAX_WAIT;
+    /** 连接数相关参数end */
+
+
+    protected volatile ClassLoader driverClassLoader;
+    protected volatile PasswordCallback passwordCallback;
+    protected volatile NameCallback userCallback;
+
+
     protected int notFullTimeoutRetryCount;
 
     protected volatile String validationQuery = DEFAULT_VALIDATION_QUERY;
@@ -107,10 +121,12 @@ public abstract class DruidAbstractDataSource extends WrapperAdapter implements 
     protected volatile boolean testOnBorrow = DEFAULT_TEST_ON_BORROW;
     protected volatile boolean testOnReturn = DEFAULT_TEST_ON_RETURN;
     protected volatile boolean testWhileIdle = DEFAULT_WHILE_IDLE;
+
     protected volatile boolean poolPreparedStatements;
     protected volatile boolean sharePreparedStatements;
     protected volatile int maxPoolPreparedStatementPerConnectionSize = 10;
 
+    /** 是否已经初始化 */
     protected volatile boolean inited;
     protected volatile boolean initExceptionThrow = true;
 
@@ -135,9 +151,14 @@ public abstract class DruidAbstractDataSource extends WrapperAdapter implements 
     protected volatile int maxWaitThreadCount = -1;
     protected volatile boolean accessToUnderlyingConnectionAllowed = true;
 
+    /** 空闲连接检测线程检测的周期，即驱逐定时器的执行周期，单位毫秒，如果为负值，表示不运行检测线程
+     * 什么是驱逐（eviction）：对象池内部维护了一个驱逐定时器(EvictionTimer)，定时进行执行任务，每次达到驱逐时间后，我们就选定一批对象进行驱逐测试，这个测试采用策略模式供用户进行自定实现，对于符合驱逐条件的对象，将会被对象池无情的驱逐出对象池。 */
     protected volatile long timeBetweenEvictionRunsMillis = DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS;
+    /** 每次驱逐定时器对idle对象进行检测的对象数量，这里并不是对所有的闲置对象都进行有效性校验，而是选取一定数量的对象进行测试 */
     protected volatile int numTestsPerEvictionRun = DEFAULT_NUM_TESTS_PER_EVICTION_RUN;
+    /** 最小空闲时间，默认30分钟，如果连接池中非运行中的连接数大于minIdle，并且那部分连接的非运行时间大于minEvictableIdleTimeMillis，则连接池会将那部分连接设置成Idle状态并关闭；也就是说如果一条连接30分钟都没有使用到，并且这种连接的数量超过了minIdle，则这些连接就会被关闭了。*/
     protected volatile long minEvictableIdleTimeMillis = DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
+    /** 最大空闲时间，默认7小时，如果minIdle设置得比较大，连接池中的空闲连接数一直没有超过minIdle，这时那些空闲连接是不是一直不用关闭？当然不是，如果连接太久没用，数据库也会把它关闭，这时如果连接池不把这条连接关闭，系统就会拿到一条已经被数据库关闭的连接。为了避免这种情况，Druid会判断池中的连接如果非运行时间大于maxEvictableIdleTimeMillis，也会强行把它关闭，而不用判断空闲连接数是否小于minIdle */
     protected volatile long maxEvictableIdleTimeMillis = DEFAULT_MAX_EVICTABLE_IDLE_TIME_MILLIS;
     protected volatile long keepAliveBetweenTimeMillis = DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS * 2;
     protected volatile long phyTimeoutMillis = DEFAULT_PHY_TIMEOUT_MILLIS;

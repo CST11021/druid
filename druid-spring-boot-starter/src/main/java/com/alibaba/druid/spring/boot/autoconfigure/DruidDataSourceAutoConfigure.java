@@ -42,10 +42,12 @@ import javax.sql.DataSource;
 @ConditionalOnClass(DruidDataSource.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties({DruidStatProperties.class, DataSourceProperties.class})
-@Import({DruidSpringAopConfiguration.class,
+@Import({
+        DruidSpringAopConfiguration.class,
         DruidStatViewServletConfiguration.class,
         DruidWebStatFilterConfiguration.class,
-        DruidFilterConfiguration.class})
+        DruidFilterConfiguration.class
+})
 public class DruidDataSourceAutoConfigure {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DruidDataSourceAutoConfigure.class);

@@ -23,6 +23,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 /**
+ *
  * @author lihengming [89921218@qq.com]
  */
 @ConditionalOnWebApplication

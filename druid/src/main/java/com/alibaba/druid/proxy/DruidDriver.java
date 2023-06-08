@@ -46,7 +46,8 @@ import java.util.logging.Logger;
  * @author wenshao [szujobs@hotmail.com]
  */
 public class DruidDriver implements Driver, DruidDriverMBean {
-    private static Log LOG; // lazy init
+    // lazy init
+    private static Log LOG;
 
     private static final DruidDriver instance = new DruidDriver();
 
